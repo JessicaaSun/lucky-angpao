@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧧 Lucky Ang Pao — Chinese New Year</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --red: #D62828;
+      --deep-red: #8B0000;
+      --gold: #FFD700;
+      --gold-dark: #C9A400;
+      --cream: #FFF8E7;
+      --paper: #FFF1D0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Nunito', sans-serif;
+      background-color: #1a0000;
+      background-image:
+        radial-gradient(ellipse at 20% 20%, #5c0000 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, #4a0000 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M30 5 L35 20 L50 20 L38 29 L43 44 L30 35 L17 44 L22 29 L10 20 L25 20 Z' stroke='rgba(255,215,0,0.06)' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    /* Floating lanterns background */
+    .lanterns-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .lantern {
+      position: absolute;
+      font-size: 2rem;
+      animation: floatLantern linear infinite;
+      opacity: 0.15;
+    }
+
+    @keyframes floatLantern {
+      0% { transform: translateY(110vh) rotate(-10deg); opacity: 0; }
+      10% { opacity: 0.15; }
+      90% { opacity: 0.15; }
+      100% { transform: translateY(-10vh) rotate(10deg); opacity: 0; }
+    }
+
+    /* HEADER */
+    .header {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .year-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--deep-red);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 5px 18px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 7vw, 3.5rem);
+      font-weight: 900;
+      color: var(--gold);
+      text-shadow: 0 0 40px rgba(255,215,0,0.4), 3px 3px 0 var(--deep-red);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: rgba(255, 220, 150, 0.8);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .snake-emoji {
+      display: block;
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* MAIN CARD */
+    .card-wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    /* CLOSED ANG PAO */
+    #closed-envelope {
+      background: linear-gradient(160deg, #E63030 0%, #C41212 40%, #9E0000 100%);
+      border-radius: 24px;
+      padding: 40px 30px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 20px 60px rgba(200, 0, 0, 0.6),
+        0 0 0 3px rgba(255,215,0,0.4),
+        inset 0 1px 0 rgba(255,100,100,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: shake 0.6s ease-in-out infinite;
+    }
+
+    #closed-envelope:hover {
+      transform: scale(1.03);
+      box-shadow:
+        0 30px 80px rgba(200, 0, 0, 0.8),
+        0 0 0 4px rgba(255,215,0,0.7),
+        inset 0 1px 0 rgba(255,100,100,0.3);
+      animation: none;
+    }
+
+    #closed-envelope:active { transform: scale(0.97); }
+
+    /* Gold top flap */
+    #closed-envelope::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50px;
+      background: linear-gradient(135deg, #FFD700 0%, #e6b800 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%);
+    }
+
+    /* Diamond pattern overlay */
+    #closed-envelope::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L38 20 L20 38 L2 20 Z' fill='none' stroke='rgba(255,215,0,0.08)' stroke-width='1'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .closed-inner {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+    }
+
+    .ang-pao-circle {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 0 4px rgba(255,215,0,0.2);
+      font-size: 3rem;
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.5), 0 0 0 4px rgba(255,215,0,0.2); }
+      50% { box-shadow: 0 0 50px rgba(255,215,0,0.9), 0 0 0 8px rgba(255,215,0,0.3); }
+    }
+
+    #closed-envelope h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    }
+
+    #closed-envelope p {
+      color: rgba(255,235,180,0.9);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .open-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #FFD700, #FFC200);
+      color: #8B0000;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 12px 32px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255,215,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+
+    .open-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255,215,0,0.6);
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(-4deg); }
+      40% { transform: rotate(4deg); }
+      60% { transform: rotate(-3deg); }
+      80% { transform: rotate(3deg); }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.15) rotate(3deg); }
+      60% { transform: scale(0.95) rotate(-2deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .pop-animation {
+      animation: pop 0.5s ease-in-out forwards !important;
+    }
+
+    /* OPEN STATE */
+    #open-envelope {
+      background: linear-gradient(160deg, #E63030 0%, #C41212 40%, #9E0000 100%);
+      border-radius: 24px;
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 20px 60px rgba(200, 0, 0, 0.6),
+        0 0 0 3px rgba(255,215,0,0.4),
+        inset 0 1px 0 rgba(255,100,100,0.3);
+      display: none;
+    }
+
+    #open-envelope::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L38 20 L20 38 L2 20 Z' fill='none' stroke='rgba(255,215,0,0.08)' stroke-width='1'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* Confetti particles */
+    #confetti-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      animation: confettiFall linear forwards;
+      font-size: 1.2rem;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      80% { opacity: 1; }
+      100% { transform: translateY(200px) rotate(720deg); opacity: 0; }
+    }
+
+    .open-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    #open-envelope h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin-bottom: 6px;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    }
+
+    #open-envelope .sub {
+      color: rgba(255,235,180,0.8);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    /* PRIZE CARD */
+    .prize-card {
+      background: var(--cream);
+      border-radius: 16px;
+      padding: 24px 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      text-align: left;
+      transform: scale(0.8);
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 2px dashed var(--gold-dark);
+      margin-bottom: 20px;
+    }
+
+    .prize-card.revealed {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    /* ticket notches */
+    .prize-card::before {
+      content: '';
+      position: absolute;
+      left: -12px; top: 50%;
+      width: 24px; height: 24px;
+      background: #9E0000;
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    .prize-card::after {
+      content: '';
+      position: absolute;
+      right: -12px; top: 50%;
+      width: 24px; height: 24px;
+      background: #9E0000;
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    .prize-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .prize-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--deep-red);
+      margin-bottom: 8px;
+    }
+
+    .prize-desc {
+      color: #5a3d2b;
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .prize-stamp {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      border: 2px solid var(--gold-dark);
+      padding: 3px 8px;
+      border-radius: 4px;
+      opacity: 0.7;
+      transform: rotate(15deg);
+    }
+
+    .prize-footer-text {
+      font-size: 0.7rem;
+      color: #999;
+      text-align: right;
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    .try-again-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #FFD700, #FFC200);
+      color: #8B0000;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 12px 32px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255,215,0,0.4);
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+
+    .try-again-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255,215,0,0.6);
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 2;
+      margin-top: 32px;
+      text-align: center;
+    }
+
+    .footer-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      color: rgba(255, 215, 0, 0.3);
+      font-size: 1rem;
+    }
+
+    .footer-divider::before,
+    .footer-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255,215,0,0.25), transparent);
+    }
+
+    footer p {
+      color: rgba(255, 210, 100, 0.55);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    footer span.heart {
+      color: var(--red);
+      animation: heartbeat 1.2s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    footer .author {
+      color: var(--gold);
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background floating lanterns -->
+  <div class="lanterns-bg" id="lanterns"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <span class="snake-emoji">🐴</span>
+    <div class="year-badge">Year of the Horse 2026</div>
+    <h1>Lucky Ang Pao</h1>
+    <p>Shake it, open it, and claim your fate 🧧</p>
+  </header>
+
+  <!-- Main card -->
+  <div class="card-wrapper">
+
+    <!-- Closed envelope -->
+    <div id="closed-envelope">
+      <div class="closed-inner">
+        <div class="ang-pao-circle">🧧</div>
+        <h2>Your Lucky Envelope</h2>
+        <p>Tap to reveal your CNY destiny...</p>
+        <button class="open-btn">✨ Open Ang Pao ✨</button>
+      </div>
+    </div>
+
+    <!-- Opened envelope -->
+    <div id="open-envelope">
+      <div id="confetti-container"></div>
+      <div class="open-inner">
+        <h2>🎊 Gong Xi Fa Cai! 🎊</h2>
+        <p class="sub">You have received a blessing from the universe (or not):</p>
+
+        <div id="prize-card" class="prize-card">
+          <span class="prize-emoji" id="prize-emoji">🎁</span>
+          <div class="prize-stamp">Certified</div>
+          <div class="prize-title" id="prize-title">Loading...</div>
+          <div class="prize-desc" id="prize-desc">...</div>
+          <div class="prize-footer-text">Valid during the Year of the Horse • Non-transferable • Probably fake</div>
+        </div>
+
+        <button class="try-again-btn" id="try-again">🔄 Try Again Next Year</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-divider">🌸</div>
+    <p>Made with <span class="heart">♥</span> by <span class="author">JessicaaSun</span></p>
+    <p style="margin-top:4px; opacity:0.6;">Happy Chinese New Year! 新年快樂 🐴🎆</p>
+  </footer>
+
+  <script>
+    // ─── Floating lanterns ──────────────────────────────────────
+    const lanternsBg = document.getElementById('lanterns');
+    const lanternEmojis = ['🏮', '🧧', '🌸', '✨', '🌙', '⭐', '🐴'];
+    for (let i = 0; i < 18; i++) {
+      const el = document.createElement('div');
+      el.className = 'lantern';
+      el.textContent = lanternEmojis[Math.floor(Math.random() * lanternEmojis.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDuration = (10 + Math.random() * 20) + 's';
+      el.style.animationDelay = (Math.random() * 20) + 's';
+      el.style.fontSize = (1 + Math.random() * 2) + 'rem';
+      lanternsBg.appendChild(el);
+    }
+
+    // ─── Prizes ─────────────────────────────────────────────────
+    const prizes = [
+      {
+        emoji: "💸",
+        title: "Try Again Next Year",
+        desc: "The ancestors consulted the stars and determined you need more red envelopes. Come back in 2026. The snake has spoken."
+      },
+      {
+        emoji: "🧴",
+        title: "A Mystery Perfume",
+        desc: "Smells like 'Grandma's Closet No. 5.' Notes of mothballs, tiger balm, and hope. Very exclusive. Very confusing."
+      },
+      {
+        emoji: "🐟",
+        title: "One Whole Fish",
+        desc: "Congratulations! You've won a symbolic fish. It represents abundance. You cannot eat it. You cannot sell it. You just have it."
+      },
+      {
+        emoji: "🤑",
+        title: "$888 Cash!",
+        desc: "...In Monopoly money. But hey, eight is lucky, so technically you have THREE lucky eights. That counts for something. We think."
+      },
+      {
+        emoji: "🧧",
+        title: "Another Ang Pao",
+        desc: "An ang pao inside an ang pao. Very meta. Very Chinese New Year. Inside this ang pao is $2 and a reminder to call your mum."
+      },
+      {
+        emoji: "🍊",
+        title: "Two Mandarin Oranges",
+        desc: "The ultimate CNY flex. You may now visit relatives and place these on their table while smiling mysteriously. You have arrived."
+      },
+      {
+        emoji: "🔮",
+        title: "Psychic Fortune Telling",
+        desc: "A mystic fortune from Auntie Agnes: 'You will find luck in the east, avoid the colour beige, and stop buying bubble tea every day.'"
+      },
+      {
+        emoji: "💤",
+        title: "Permission to Nap",
+        desc: "Official clearance to skip the family mahjong session and take a 3-hour nap without guilt. Certified by the Council of CNY Elders."
+      },
+      {
+        emoji: "🎤",
+        title: "Karaoke Voucher",
+        desc: "One free turn at KTV singing 'My Heart Will Go On' at maximum volume. Your relatives WILL record it. It WILL go on WhatsApp."
+      },
+      {
+        emoji: "🐴",
+        title: "The Horse's Blessing",
+        desc: "The Year of the Horse bestows upon you: speed, freedom, great energy, and the ability to gallop away from awkward family questions."
+      },
+      {
+        emoji: "🥟",
+        title: "Unlimited Dumplings",
+        desc: "You've won infinite theoretical dumplings. Redeemable only if you help Grandma fold 200 real ones first. She's waiting. She's been waiting."
+      },
+      {
+        emoji: "🎊",
+        title: "Excellent Luck™",
+        desc: "This is it. The big one. Maximum luck has been activated. Your 2026 will be extraordinary... unless Mercury is in retrograde. Good luck!"
+      }
+    ];
+
+    // ─── Elements ────────────────────────────────────────────────
+    const closedEl = document.getElementById('closed-envelope');
+    const openEl = document.getElementById('open-envelope');
+    const prizeCard = document.getElementById('prize-card');
+    const prizeEmoji = document.getElementById('prize-emoji');
+    const prizeTitle = document.getElementById('prize-title');
+    const prizeDesc = document.getElementById('prize-desc');
+    const tryAgain = document.getElementById('try-again');
+    const confettiContainer = document.getElementById('confetti-container');
+
+    // ─── Confetti ────────────────────────────────────────────────
+    const confettiSymbols = ['🧧', '🌟', '✨', '🎊', '💰', '🌸', '🪙'];
+    function spawnConfetti() {
+      confettiContainer.innerHTML = '';
+      for (let i = 0; i < 25; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.textContent = confettiSymbols[Math.floor(Math.random() * confettiSymbols.length)];
+        piece.style.left = Math.random() * 100 + '%';
+        piece.style.top = '0';
+        piece.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+        piece.style.animationDelay = (Math.random() * 1) + 's';
+        confettiContainer.appendChild(piece);
+      }
+    }
+
+    // ─── Open ang pao ────────────────────────────────────────────
+    function openAngPao() {
+      closedEl.classList.remove('shake-animation');
+      closedEl.classList.add('pop-animation');
+
+      setTimeout(() => {
+        closedEl.style.display = 'none';
+        openEl.style.display = 'block';
+
+        const prize = prizes[Math.floor(Math.random() * prizes.length)];
+        prizeEmoji.textContent = prize.emoji;
+        prizeTitle.textContent = prize.title;
+        prizeDesc.textContent = prize.desc;
+
+        spawnConfetti();
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            prizeCard.classList.add('revealed');
+          });
+        });
+      }, 450);
+    }
+
+    // ─── Reset ───────────────────────────────────────────────────
+    function reset() {
+      openEl.style.display = 'none';
+      prizeCard.classList.remove('revealed');
+      closedEl.style.display = 'block';
+      closedEl.classList.remove('pop-animation');
+      void closedEl.offsetWidth; // reflow
+      closedEl.style.animation = 'none';
+      void closedEl.offsetWidth;
+      closedEl.style.animation = '';
+    }
+
+    closedEl.addEventListener('click', openAngPao);
+    tryAgain.addEventListener('click', reset);
+  </script>
+</body>
+</html>
